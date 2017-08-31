@@ -6,7 +6,7 @@ import javax.imageio.ImageIO;
 
 public class CEnemy {
 	BufferedImage img;
-	private int x, y, d;
+	public int x, y, d;
 	
 	public CEnemy(int x, int y, int d) {
 		this.x = x;
@@ -27,7 +27,7 @@ public class CEnemy {
 	public boolean move() {
 		y += 16;
 		x += d;
-		if (y > 50)
+		if (y > 650)
 			return false;
 		return true;
 	}

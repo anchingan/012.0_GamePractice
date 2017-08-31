@@ -39,4 +39,31 @@ public class CAirCraft {
 			this.x -= 16;
 	}
 	
+	public boolean checkAttack(CEnemy e) {
+		int left1, left2;
+		int right1, right2;
+		int top1, top2;
+		int bottom1, bottom2;
+		
+		left1 = x;
+		left2 = e.x;
+		right1 = x + 77;
+		right2 = e.x + 48;
+		top1 = y;
+		top2 = e.y;
+		bottom1 = y + 45;
+		bottom2 = e.y + 45;
+		
+		if (bottom1 < top2)
+			return false;
+		if (top1 > bottom2)
+			return false;
+		if (right1 < left2)
+			return false;
+		if (left1 > right2)
+			return false;
+		
+		return true;
+	}
+	
 }

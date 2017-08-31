@@ -9,10 +9,15 @@ import java.awt.event.*;
 public class GameJPanel extends JPanel {
 	CAirCraft ac;
 	ArrayList<CEnemy> cm;
+	ArrayList<CBoom> bm;
+	int sx, sy;
 	
 	public GameJPanel() {
 		ac = new CAirCraft();
-		cm = new ArrayList();
+		cm = new ArrayList<CEnemy>();
+		bm = new ArrayList<CBoom>();
+		sx = 0;
+		sy = 0;
 		
 		this.addMouseListener(new CMyListener1());
 		this.addMouseMotionListener(new CMyListener1());
@@ -28,8 +33,24 @@ public class GameJPanel extends JPanel {
 						for (int i = 0; i < cm.size(); i++) {
 							if (cm.get(i).move() == false)
 								cm.remove(i);
-							else
-								;
+							else {
+								if (ac.checkAttack(cm.get(i)))
+									System.exit(0);
+							}
+						}
+						for (int i = 0; i < bm.size(); i++) {
+							if (bm.get(i).move() == false)
+								bm.remove(i);
+							else {
+								if (bm.get(i).state == 0) {
+									for (int j = 0; j < cm.size(); j++) {
+										if (bm.get(i).checkAttack(cm.get(j))) {
+											cm.remove(j);
+											break;
+										}
+									}
+								}
+							}
 						}
 					}
 				});
@@ -52,14 +73,23 @@ public class GameJPanel extends JPanel {
 		public void mouseMoved(MouseEvent e) {
 			ac.changeDir(e.getX());
 		}
+		
+		public void mousePressed(MouseEvent e) {
+			if (e.getButton() == MouseEvent.BUTTON1) {
+				sx = ac.x + 5;
+				sy = ac.y - 10;
+				bm.add(new CBoom(sx, sy));
+			}
+		}
 	}
 	
 	@Override
 	public void paint(Graphics g) {
 		ac.paint(g);
-		for (int i = 0; i < cm.size(); i++) {
+		for (int i = 0; i < cm.size(); i++) 
 			cm.get(i).paint(g);
-		}
+		for (int i = 0; i < bm.size(); i++) 
+			bm.get(i).paint(g);
 	}
 
 }
