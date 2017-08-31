@@ -1,3 +1,5 @@
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -11,6 +13,7 @@ public class GameJPanel extends JPanel {
 	ArrayList<CEnemy> cm;
 	ArrayList<CBoom> bm;
 	int sx, sy;
+	AudioClip clip; 
 	
 	public GameJPanel() {
 		ac = new CAirCraft();
@@ -21,6 +24,13 @@ public class GameJPanel extends JPanel {
 		
 		this.addMouseListener(new CMyListener1());
 		this.addMouseMotionListener(new CMyListener1());
+		try {
+			clip = Applet.newAudioClip(getClass().getResource("bomb.wav"));
+		}
+		catch (Exception e) {
+			
+		}
+		
 		
 		Timer t1 = new Timer(100,
 				new ActionListener() {
@@ -79,6 +89,7 @@ public class GameJPanel extends JPanel {
 				sx = ac.x + 5;
 				sy = ac.y - 10;
 				bm.add(new CBoom(sx, sy));
+				clip.play();
 			}
 		}
 	}
